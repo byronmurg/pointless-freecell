@@ -1,0 +1,40 @@
+#!/usr/bin/perl
+
+use strict ;
+use warnings ;
+
+use Imager ;
+
+my $imagePath = "assets/masterimages/" ;
+my $outPath = "assets/images/" ;
+
+my $targetWidth = 300 ;
+
+opendir DIR, $imagePath ;
+
+while( readdir DIR ){
+	next unless /\w+\.(jpg|png)/ ;
+
+	my $outFile = "$outPath/$_" ;
+
+	next if -f $outFile ;
+
+	my $img = Imager->new(file => "$imagePath/$_")
+		or die Imager->errstr ;
+
+	my $width = $img->getwidth ;
+
+	if ( $width <= $targetWidth ){
+		symlink "$imagePath/$_", "$outPath/$_" ;
+		print "!!Symlinked $_\n" ;
+		next ;
+	}
+
+	my $reduction = $width / $targetWidth ;
+
+	my $newImg = $img->scale(xpixels => $targetWidth);
+	$newImg->write(file => $outFile, type => 'jpeg', jpegquality => 100);
+
+	print "image $_ width:$width reduction $reduction\n" ;
+}
+

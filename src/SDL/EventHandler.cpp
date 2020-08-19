@@ -33,6 +33,7 @@ void EventHandler::_processEvent(const SDL_Event &e){
 			break ;
 		case SDL_MOUSEMOTION :
 			_processMouseMove(e);
+			break ;
 		case SDL_KEYDOWN :
 		case SDL_KEYUP :
 			_processKeyBoardEvent(e);

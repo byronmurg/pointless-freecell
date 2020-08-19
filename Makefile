@@ -22,7 +22,7 @@ directories: $(DIRS)
 -include deps/*.deps
 
 build/%.o: %.cpp | directories
-	@ echo " building \e[92m $* \e[0m"
+	@ echo -e " building \e[92m $* \e[0m"
 	@$(CC) $(CXXFLAGS) $(RELEASE_FLAGS) -c $< -o $@
 	@$(CC) $(CXXFLAGS) -MM $< -MT $@ > deps/$*.deps
 
